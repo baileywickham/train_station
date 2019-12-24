@@ -17,16 +17,11 @@ jobs:
       uses: actions/checkout@v1
 
     - name : lint gocode
-      run : gofmt *.go
+      run : go fmt *.go
+      
+    - name : test
+      run : go test -v .
       
     - name: Build # Build bin but don't need yet
       run: go build -v 
-      
-  test:
-    name: Run go tests
-    needs: build
-    runs-on: [ubuntu-latest]
-    steps:
-      - name: Run tests
-        run: go test
     
