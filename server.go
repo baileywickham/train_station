@@ -10,6 +10,9 @@ type Account struct {
 	balance int
 }
 
+var ErrUUIDConflict = errors.New("UUID already exists")
+var ErrAcountBelowZ = errors.New("Account balance below zero")
+
 var Accounts map[string]Account
 
 func Create_account(uuid string, name string, balance int) (Account, error) {
@@ -17,7 +20,7 @@ func Create_account(uuid string, name string, balance int) (Account, error) {
 	var account Account
 	if _, ok := Accounts[uuid]; ok {
 		// change error type?
-		return account, errors.New("UUID Already Exists")
+		return account, ErrUUIDConflict
 	}
 	account = Account{uuid, name, balance}
 	Accounts[uuid] = account
@@ -50,8 +53,22 @@ func print_account(uuid string) {
 	println(account.uuid, account.name, account.balance)
 }
 
+func Charge_account(uuid string, amount int) error {
+	account, err := account_by_uuid(uuid)
+	if err != nil {
+		return err
+	}
+	if account.balance-amount < 0 {
+		return ErrAcountBelowZ
+	}
+	account.balance -= amount
+	Accounts[account.uuid] = account
+
+	return nil
+}
+
 func main() {
-	// is this global scope? Should be...
+	runner()
 	_, err := Create_account("1", "Bailey", 0)
 	if err != nil {
 		log.Fatal(err)
@@ -61,7 +78,6 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	print_account("1")
 
 }
 func init() {
