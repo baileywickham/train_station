@@ -2,7 +2,9 @@
 
 A go program to simulate a train station. Uses Github Actions to run tests, lint, and build binary files.
 
-use `go test` to manualy run unit tests.
+## Use
+Use `go run .` to start the cli runner
+use `go test` to manualy run unit tests
 
 ## TODO
 - better error handling
