@@ -7,6 +7,7 @@ Use `go run .` to start the cli runner
 use `go test` to manualy run unit tests
 
 ## TODO
+- make object oriented
 - better error handling
 - add database support
 - add fileparsing support (runner)
