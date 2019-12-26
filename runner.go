@@ -10,6 +10,15 @@ import (
 
 func runner() {
 	reader := bufio.NewReader(os.Stdin)
+	//	defer
+	func() {
+		// function to loop on panics
+		if r := recover(); r != nil {
+			log.Println("Panic: ", r)
+			runner()
+		}
+	}()
+
 	println("Entering shell")
 	for {
 		print(":|:  ")
@@ -18,8 +27,8 @@ func runner() {
 		tokens := strings.Fields(text)
 		switch tokens[0] {
 		case "c":
-			i, _ := strconv.Atoi(tokens[3])
-			_, err := Create_account(tokens[1], tokens[2], i)
+			i, _ := strconv.Atoi(tokens[2])
+			_, err := Create_account(tokens[1], i)
 			if err != nil {
 				println(err.Error())
 			}
