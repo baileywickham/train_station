@@ -28,29 +28,33 @@ func runner() {
 		switch tokens[0] {
 		case "c":
 			i, _ := strconv.Atoi(tokens[2])
-			account, err := Create_account(tokens[1], i)
-			if err != nil {
-				println(err.Error())
-			}
+			account := Create_account(tokens[1], i)
 			println("Account ID: ", account.uuid)
 		case "a":
 			// add money
 			i, _ := strconv.Atoi(tokens[2])
 			uuid, _ := strconv.Atoi(tokens[1])
-			err := Add_balance(uuid, i)
+			account, err := account_by_uuid(uuid)
 			if err != nil {
 				log.Println(err.Error())
 			}
+			account.Add_balance(i)
 		case "u":
 			// use transaction. Default 1 dollar
 			uuid, _ := strconv.Atoi(tokens[1])
-			err := Charge_account(uuid, 1)
+			account, err := account_by_uuid(uuid)
 			if err != nil {
-				println(err.Error())
+				log.Println(err.Error())
 			}
+			account.Charge_account(1)
 		case "p":
 			uuid, _ := strconv.Atoi(tokens[1])
-			print_account(uuid)
+			account, err := account_by_uuid(uuid)
+			if err != nil {
+				log.Println(err.Error())
+			}
+			account.print_account()
+
 		default:
 			println("Help:")
 			println("c : create account, name, amount")

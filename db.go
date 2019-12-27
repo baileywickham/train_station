@@ -34,7 +34,7 @@ func account_by_uuid_db(uuid int) (Account, error) {
 	return account, nil
 }
 
-func Create_account_db(name string, balance int) (int, error) {
+func Create_account_db(name string, balance int) int {
 	var id int
 	err := db.QueryRow(
 		`INSERT INTO accounts (name, balance)
@@ -43,7 +43,7 @@ func Create_account_db(name string, balance int) (int, error) {
 	if err != nil {
 		panic(err)
 	}
-	return id, nil
+	return id
 }
 
 func update_account_db(account Account) error {
@@ -51,9 +51,7 @@ func update_account_db(account Account) error {
 				SET name=$2, balance=$3
 				WHERE id=$4`, table_name, account.name, account.balance, account.uuid)
 	if err != nil {
-		if err == sql.ErrNoRows {
-			return ErrAccountNotFound
-		}
+		// Handle errors in func
 		panic(err)
 	}
 	return nil
