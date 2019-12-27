@@ -53,7 +53,7 @@ func runner() {
 			if err != nil {
 				log.Println(err.Error())
 			}
-			account.print_account()
+			account.Print_account()
 
 		default:
 			println("Help:")

@@ -47,9 +47,9 @@ func Create_account_db(name string, balance int) int {
 }
 
 func update_account_db(account Account) error {
-	_, err := db.Exec(`UPDATE $1
-				SET name=$2, balance=$3
-				WHERE id=$4`, table_name, account.name, account.balance, account.uuid)
+	_, err := db.Exec(`UPDATE accounts
+				SET name=$1, balance=$2
+				WHERE id=$3`, account.name, account.balance, account.uuid)
 	if err != nil {
 		// Handle errors in func
 		panic(err)
@@ -58,7 +58,7 @@ func update_account_db(account Account) error {
 }
 
 func delete_user_db(uuid int) error {
-	_, err := db.Exec(`DELETE FROM $1 WHERE id=$2`, table_name, uuid)
+	_, err := db.Exec(`DELETE FROM accounts WHERE id=$1`, uuid)
 	if err != nil {
 		if err == sql.ErrNoRows {
 			return ErrAccountNotFound

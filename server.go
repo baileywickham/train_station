@@ -40,7 +40,7 @@ func account_by_uuid(uuid int) (Account, error) {
 	return account, nil
 }
 
-func (account *Account) print_account() {
+func (account *Account) Print_account() {
 	println(account.uuid, account.name, account.balance)
 }
 
