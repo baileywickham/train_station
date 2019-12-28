@@ -30,4 +30,4 @@ jobs:
     name: Postgres
     steps:
       - uses: actions/checkout@v1
-      - uses: actions/postgres-build
+      - uses: ./.github/actions/postgres
