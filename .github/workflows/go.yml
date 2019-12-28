@@ -2,10 +2,22 @@ name: Go
 on: [push] # all branches
 
 jobs:
+  container-job:
+    runs-on: [ubuntu-latest]
+    services:
+      postgres:
+        image: Dockerfile
+        ports: 
+          - 5432:5432        
   build:
     name: Build
     runs-on: ubuntu-latest
-    needs: postgres
+    
+    services:
+      postgres:
+        image: Dockerfile
+        ports: 
+          - 5432:5432        
     steps:
     - name: Set up Go 1.13
       uses: actions/setup-go@v1
@@ -24,10 +36,3 @@ jobs:
 
     - name: Build # Build bin but don't need yet
       run: go build -v
-
-  postgres:
-    runs-on: [ubuntu-latest]
-    name: Postgres
-    steps:
-      - uses: actions/checkout@v2
-      - uses: ./.github/actions/postgres
