@@ -1,6 +1,6 @@
 # train_station
 
-https://github.com/baileywickham/train_station/workflows/go/badge.svg
+https://github.com/baileywickham/train_station/workflows/Go/badge.svg
 
 A go program to simulate a train station. Uses Github Actions to run tests, lint, and build binary files.
 
