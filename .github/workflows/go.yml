@@ -25,8 +25,8 @@ jobs:
     - name: Build # Build bin but don't need yet
       run: go build -v
 
-    postgres:
-        name: Postgres
+  postgres:
+    name: Postgres
         steps:
             - name: run
             - uses: actions/postgres-build@v1
