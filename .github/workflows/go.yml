@@ -1,14 +1,7 @@
 name: Go
 on: [push] # all branches
 
-jobs:
-  container-job:
-    runs-on: [ubuntu-latest]
-    services:
-      postgres:
-        image: Dockerfile
-        ports: 
-          - 5432:5432        
+jobs:   
   build:
     name: Build
     runs-on: ubuntu-latest
