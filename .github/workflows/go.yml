@@ -30,5 +30,5 @@ jobs:
     name: Postgres
     steps:
       - name: build
-        uses: actions/postgres-build
+        uses: ./.github/actions/postgres
 
