@@ -3,8 +3,13 @@
 A go program to simulate a train station. Uses Github Actions to run tests, lint, and build binary files.
 
 ## Use
+This program uses postgres as the database. This can be installed for tesing using the dockerfile
+
+
 Use `go run .` to start the cli runner
-use `go test` to manualy run unit tests
+
+
+Use `go test` to manualy run unit tests
 
 ## TODO
 - make object oriented

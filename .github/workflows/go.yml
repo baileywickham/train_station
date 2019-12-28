@@ -1,6 +1,6 @@
 name: Go
 on: [push] # all branches
-  
+
 jobs:
   build:
     name: Build
@@ -18,10 +18,16 @@ jobs:
 
     - name : lint gocode
       run : go fmt *.go
-      
+
     - name : test
       run : go test -v .
-      
+
     - name: Build # Build bin but don't need yet
-      run: go build -v 
-    
+      run: go build -v
+
+    postgres:
+        name: Postgres
+        steps:
+            - name: run
+            - uses: actions/postgres-build@v1
+

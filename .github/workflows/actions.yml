@@ -1,0 +1,5 @@
+name: postgres-build
+description: 'Builds postgres in docker contianer for testing'
+runs:
+    using: 'docker'
+    image: 'Dockerfile'
