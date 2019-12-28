@@ -5,7 +5,7 @@ import _ "github.com/lib/pq"
 
 // single global db pointer for now
 var db *sql.DB
-var connStr = "user=postgres password=postgres dbname=station"
+var connStr = "user=postgres password=postgres dbname=station sslmode=disable"
 var table_name = "accounts"
 
 func InitDB() {
