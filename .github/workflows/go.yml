@@ -14,7 +14,7 @@ jobs:
           POSTGRES_PASSWORD: postgres
           POSTGRES_DB: station
         volumes: 
-          - ./scripts/pgsetup.sql:/docker-entrypoint-initdb.d/
+          - ./scripts/pgsetup.sql:/docker-entrypoint-initdb.d/pgsetup.sql
         ports: 
           - 5432:5432        
     steps:      
