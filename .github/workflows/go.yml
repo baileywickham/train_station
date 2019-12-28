@@ -17,6 +17,8 @@ jobs:
           - ./scripts/pgsetup.sql:/docker-entrypoint-initdb.d/pgsetup.sql
         ports: 
           - 5432:5432        
+        options:
+           -v ./scripts/pgsetup.sql:/docker-entrypoint-initdb.d/pgsetup.sql
     steps:      
     - name: Setup Go 1.13
       uses: actions/setup-go@v1
