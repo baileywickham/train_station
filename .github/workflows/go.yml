@@ -16,9 +16,7 @@ jobs:
         volumes: 
           - ./scripts/pgsetup.sql:/docker-entrypoint-initdb.d/pgsetup.sql
         ports: 
-          - 5432:5432        
-        options:
-           -v ./scripts/pgsetup.sql:/docker-entrypoint-initdb.d/pgsetup.sql
+          - 5432:5432
     steps:      
     - name: Setup Go 1.13
       uses: actions/setup-go@v1
@@ -28,6 +26,12 @@ jobs:
 
     - name: Check out code into the Go module directory
       uses: actions/checkout@v1
+      
+    - name: Install sql
+      run: sudo apt-get update && sudo apt-get install postgresql-client  
+      
+    - name: Create table
+      run:  sudo ./scripts/pgsetup.sh
 
     - name : lint gocode
       run : go fmt *.go
