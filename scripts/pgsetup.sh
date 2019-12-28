@@ -1,3 +1,2 @@
-sudo -u postgres createuser -s `whoami`
 sudo -u postgres createdb station
-psql -d station -a -f pgsetup.sql
+psql -h localhost -d station -U postgres -W postgres -a -f pgsetup.sql
