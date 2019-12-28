@@ -28,10 +28,10 @@ jobs:
       uses: actions/checkout@v1
       
     - name: Install sql
-      run: apt-get update && apt-get install postgresql-client  
+      run: sudo apt-get update && sudo apt-get install postgresql-client  
       
     - name: Create table
-      run:  psql -d station -a -f ./scripts/pgsetup.sql
+      run:  sudo ./scripts/pgsetup.sh
 
     - name : lint gocode
       run : go fmt *.go
