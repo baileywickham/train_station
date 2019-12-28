@@ -4,4 +4,4 @@ CREATE TABLE Accounts (
   balance         int NULL
 );
 
-ALTER USER postgres WITH PASSWORD 'testing';
+ALTER USER postgres WITH PASSWORD 'postgres';
