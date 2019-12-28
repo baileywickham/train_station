@@ -1,25 +1,24 @@
 name: Go
 on: [push] # all branches
 
-jobs:
-  container-job:
-    runs-on: [ubuntu-latest]
-    services:
-      postgres:
-        image: Dockerfile
-        ports: 
-          - 5432:5432        
+jobs:   
   build:
     name: Build
     runs-on: ubuntu-latest
     
     services:
       postgres:
-        image: Dockerfile
+        image: postgres
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: station
+        volumes: 
+          - ./scripts/pgsetup.sql:/docker-entrypoint-initdb.d/
         ports: 
           - 5432:5432        
-    steps:
-    - name: Set up Go 1.13
+    steps:      
+    - name: Setup Go 1.13
       uses: actions/setup-go@v1
       with:
         go-version: 1.13
