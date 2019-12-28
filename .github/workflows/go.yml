@@ -29,6 +29,5 @@ jobs:
     runs-on: [ubuntu-latest]
     name: Postgres
     steps:
-      - name: build
       - uses: actions/checkout@v1
       - uses: actions/postgres-build
