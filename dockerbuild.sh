@@ -1,1 +1,1 @@
-docker build -t pg . && docker run -p 5432:5432 pg
+docker build -t train_station . && docker run --network=host -it train_station

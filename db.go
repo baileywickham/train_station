@@ -24,7 +24,7 @@ func InitDB() {
 
 func account_by_uuid_db(uuid int) (Account, error) {
 	var account Account
-	err := db.QueryRow("SELECT * FROM accounts WHERE id = $1", uuid).Scan(&account.uuid, &account.name, &account.balance)
+	err := db.QueryRow("SELECT * FROM accounts WHERE id = $1", uuid).Scan(&account.UUID, &account.Name, &account.Balance)
 	if err != nil {
 		if err == sql.ErrNoRows {
 			return account, ErrAccountNotFound
@@ -49,7 +49,7 @@ func Create_account_db(name string, balance int) int {
 func update_account_db(account Account) error {
 	_, err := db.Exec(`UPDATE accounts
 				SET name=$1, balance=$2
-				WHERE id=$3`, account.name, account.balance, account.uuid)
+				WHERE id=$3`, account.Name, account.Balance, account.UUID)
 	if err != nil {
 		// Handle errors in func
 		panic(err)
@@ -66,4 +66,22 @@ func delete_user_db(uuid int) error {
 		panic(err)
 	}
 	return nil
+}
+func get_all_accounts_db() []Account {
+	// default size of 10
+	accounts := make([]Account, 0)
+	rows, err := db.Query("SELECT * FROM accounts")
+	if err != nil {
+		panic(err)
+	}
+	defer rows.Close()
+	for rows.Next() {
+		var a Account
+		err = rows.Scan(&a.UUID, &a.Name, &a.Balance)
+		if err != nil {
+			panic(err)
+		}
+		accounts = append(accounts, a)
+	}
+	return accounts
 }
