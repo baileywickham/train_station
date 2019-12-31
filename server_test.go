@@ -13,9 +13,9 @@ func TestCreate_account(t *testing.T) {
 	if err != nil || a != account {
 		t.Log("err", err)
 		println("original:")
-		account.Print_account()
+		account.Print()
 		println("new:")
-		a.Print_account()
+		a.Print()
 		t.Error("database different than created")
 	}
 }
@@ -29,7 +29,7 @@ func TestAdd_balance(t *testing.T) {
 }
 
 func TestCharge_account(t *testing.T) {
-	account.Charge_account(1)
+	account.Charge(1)
 	a, err := account_by_uuid(account.UUID)
 	if err != nil || a.Balance != 0 {
 		t.Log(err)

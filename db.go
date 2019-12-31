@@ -2,6 +2,7 @@ package main
 
 import "database/sql"
 import _ "github.com/lib/pq"
+import "time"
 
 // single global db pointer for now
 var db *sql.DB
@@ -46,7 +47,7 @@ func Create_account_db(name string, balance int) int {
 	return id
 }
 
-func update_account_db(account Account) error {
+func update_account_db(account Account) {
 	_, err := db.Exec(`UPDATE accounts
 				SET name=$1, balance=$2
 				WHERE id=$3`, account.Name, account.Balance, account.UUID)
@@ -54,7 +55,6 @@ func update_account_db(account Account) error {
 		// Handle errors in func
 		panic(err)
 	}
-	return nil
 }
 
 func delete_user_db(uuid int) error {
@@ -67,6 +67,7 @@ func delete_user_db(uuid int) error {
 	}
 	return nil
 }
+
 func get_all_accounts_db() []Account {
 	// default size of 10
 	accounts := make([]Account, 0)
@@ -84,4 +85,19 @@ func get_all_accounts_db() []Account {
 		accounts = append(accounts, a)
 	}
 	return accounts
+}
+
+func updated_accounts(ac <-chan Account) {
+	for {
+		select {
+		case account, ok := <-ac:
+			if ok == false {
+				return
+			}
+			account.channged = false
+			go update_account_db(account)
+		default:
+			time.Sleep(100 * time.Millisecond)
+		}
+	}
 }

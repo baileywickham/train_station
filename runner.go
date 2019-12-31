@@ -1,5 +1,6 @@
 package main
 
+// cli runner
 import (
 	"bufio"
 	"log"
