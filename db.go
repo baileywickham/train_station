@@ -2,7 +2,8 @@ package main
 
 import "database/sql"
 import _ "github.com/lib/pq"
-import "time"
+
+//import "time"
 
 // single global db pointer for now
 var db *sql.DB
@@ -87,17 +88,13 @@ func get_all_accounts_db() []Account {
 	return accounts
 }
 
-func updated_accounts(ac <-chan Account) {
-	for {
-		select {
-		case account, ok := <-ac:
-			if ok == false {
-				return
-			}
-			account.channged = false
-			go update_account_db(account)
-		default:
-			time.Sleep(100 * time.Millisecond)
-		}
+func updated_accounts(ac <-chan *Account) {
+	//ticker := time.NewTicker(100 * time.Millisecond)
+	for account := range ac {
+		println("written to db")
+		// mark as written to db then write to db
+		account.channged = false
+		accounts[account.UUID] = *account
+		update_account_db(*account)
 	}
 }

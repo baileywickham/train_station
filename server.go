@@ -14,12 +14,10 @@ var ErrUUIDConflict = errors.New("UUID already exists")
 var ErrAcountBelowZ = errors.New("Account balance below zero")
 var ErrAccountNotFound = errors.New("Account not found")
 
-var ac chan Account
+var ac chan *Account
 var accounts map[int]Account
 
-//var Accounts map[int]Account
-
-func Create_account(name string, balance int) Account {
+func NewAccount(name string, balance int) Account {
 	// check if account exists
 	id := Create_account_db(name, balance)
 	account := Account{id, name, balance, false}
@@ -35,18 +33,20 @@ func (account *Account) Add_balance(amount int) {
 func (account *Account) update() {
 	// update_account_db(*account)
 	// only pass in accounts once
+	accounts[account.UUID] = *account
+	go updated_accounts(ac)
 	if account.channged == false {
 		account.channged = true
-		ac <- *account
+		ac <- account
 	}
 }
 
-func account_by_uuid(uuid int) (Account, error) {
+func account_by_uuid(uuid int) (*Account, error) {
 	var account Account
 	if account, ok := accounts[uuid]; ok {
-		return account, nil
+		return &account, nil
 	}
-	return account, ErrAccountNotFound
+	return &account, ErrAccountNotFound
 }
 
 func (account *Account) Print() {
@@ -75,9 +75,6 @@ func Get_all_accounts() []Account {
 }
 
 func main() {
-	ac = make(chan Account)
-	defer close(ac)
-
 	cli := flag.Bool("cli", false, "start cli runner")
 	api := flag.Bool("api", false, "start api server")
 	flag.Parse()
@@ -88,11 +85,12 @@ func main() {
 	if *cli {
 		runner()
 	}
+
 }
 func init() {
+	InitDB()
 	accounts = make(map[int]Account)
-	for _, account := range Get_all_accounts() {
+	for _, account := range get_all_accounts_db() {
 		accounts[account.UUID] = account
 	}
-	InitDB()
 }

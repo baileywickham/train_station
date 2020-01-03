@@ -5,7 +5,7 @@ import "testing"
 var account Account
 
 func TestCreate_account(t *testing.T) {
-	account = Create_account("test", 0)
+	account = NewAccount("test", 0)
 	if account.Name != "test" || account.Balance != 0 {
 		t.Error("Account not created")
 	}
