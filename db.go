@@ -2,17 +2,16 @@ package main
 
 import "database/sql"
 import _ "github.com/lib/pq"
+import "time"
 
 //import "time"
 
 // single global db pointer for now
 var db *sql.DB
-var connStr = "user=postgres password=postgres dbname=station sslmode=disable"
-var table_name = "accounts"
 
 func InitDB() {
 	var err error
-	db, err = sql.Open("postgres", connStr)
+	db, err = sql.Open("postgres", CONNSTR)
 	if err != nil {
 		// db error unrecoverable at this point
 		panic(err)
@@ -90,11 +89,16 @@ func get_all_accounts_db() []Account {
 
 func updated_accounts(ac <-chan *Account) {
 	//ticker := time.NewTicker(100 * time.Millisecond)
-	for account := range ac {
-		println("written to db")
-		// mark as written to db then write to db
-		account.channged = false
-		accounts[account.UUID] = *account
-		update_account_db(*account)
+	for {
+		select {
+		case account, ok := <-ac:
+			if !ok {
+				return
+			}
+			account.channged = false
+			update_account_db(*account)
+		default:
+			time.Sleep(time.Second)
+		}
 	}
 }

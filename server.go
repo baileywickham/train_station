@@ -21,6 +21,7 @@ func NewAccount(name string, balance int) Account {
 	// check if account exists
 	id := Create_account_db(name, balance)
 	account := Account{id, name, balance, false}
+	accounts[account.UUID] = account
 
 	return account
 }
@@ -34,10 +35,13 @@ func (account *Account) update() {
 	// update_account_db(*account)
 	// only pass in accounts once
 	accounts[account.UUID] = *account
-	go updated_accounts(ac)
 	if account.channged == false {
 		account.channged = true
-		ac <- account
+		select {
+		case ac <- account:
+		default:
+			panic("Channel buffer overflowed. Increase BUFSIZE in config.go")
+		}
 	}
 }
 
@@ -63,6 +67,7 @@ func (account *Account) Charge(amount int) error {
 }
 func Delete_user(uuid int) error {
 	err := delete_user_db(uuid)
+	delete(accounts, uuid)
 	return err
 }
 
@@ -90,6 +95,9 @@ func main() {
 func init() {
 	InitDB()
 	accounts = make(map[int]Account)
+	ac = make(chan *Account, BUFSIZE)
+
+	go updated_accounts(ac)
 	for _, account := range get_all_accounts_db() {
 		accounts[account.UUID] = account
 	}

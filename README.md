@@ -12,17 +12,19 @@ Run `./pgstart.sh` to start a docker container containing the database. This wil
 
 This program also runs in a docker container. User `dockerbuild.sh` to start this container. Useful if golang is not installed
 
-Use `go run .` to start the cli runner. `-api` and `-cli` provide repective functionality. There are a couple api urls avaible:
-- /show-all
-- /create-account?name=&balance=
-- /server-config
-- /show?uuid=
+Use `go run .` to start the program. `-api` and `-cli` provide repective functionality. There are a couple api urls avaible:
+- `/show-all`
+- `/create-account?name=&balance=`
+- `/server-config`
+- `/show?uuid=`
 
+
+`config.go` has constants that can be changed.
 
 Use `go test` to manualy run unit tests
 
 ## TODO
-- add redis functionality
+- add redis functionality [sort of done]
 - make object oriented [doneis]
 - better error handling [done]
 - add database support [done]
@@ -30,3 +32,10 @@ Use `go test` to manualy run unit tests
 - fix runner to not panic on all arguments [done]
 - write more unit tests
 - use rpi to do real rfid reading
+
+## Notes/improvements
+- golang sql package currently [does not](https://github.com/golang/go/issues/18478) support dynamiclly naming tables.
+- Many features of this project are global in scope. This is not good.
+- Naming and comments are sparse and not consistent.
+- Tests are lacking to say the least.
+- Creating an Account relies on the database to create the UUID

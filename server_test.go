@@ -10,7 +10,7 @@ func TestCreate_account(t *testing.T) {
 		t.Error("Account not created")
 	}
 	a, err := account_by_uuid(account.UUID)
-	if err != nil || a != account {
+	if err != nil || *a != account {
 		t.Log("err", err)
 		println("original:")
 		account.Print()

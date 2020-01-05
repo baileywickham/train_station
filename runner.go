@@ -17,7 +17,7 @@ func print_all_users() {
 
 func runner() {
 	reader := bufio.NewReader(os.Stdin)
-	func() {
+	defer func() {
 		// function to loop on panics
 		if r := recover(); r != nil {
 			log.Println("Panic: ", r)
