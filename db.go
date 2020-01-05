@@ -96,9 +96,9 @@ func updated_accounts(ac <-chan *Account) {
 				return
 			}
 			account.channged = false
-			update_account_db(*account)
+			go update_account_db(*account)
 		default:
-			time.Sleep(time.Second)
+			time.Sleep(DBWRITE * time.Millisecond)
 		}
 	}
 }
