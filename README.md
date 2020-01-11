@@ -4,6 +4,8 @@
 
 A go program to simulate a train station. Uses **Github Actions** to run tests, lint, and build binary files.
 
+Why? No reason really, seemed like a fun project and I like golang. 
+
 ## Requirements
 This repo requires docker to be installed on the host system. golang is recommended but a docker container is also provided.
 
